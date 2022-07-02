@@ -141,3 +141,20 @@ things to talk in write-up:
 - models and error models
 - compare owwn clean architecture with project architecture
 - intl
+- difficulties with navigator 2.0 since I've never used it
+- use of view term instead of page
+- dimension points definition
+- fake vs live repositories
+- scripts
+- dependencies table
+- minimal api changes for refactoring (e.g., include password in credentials)
+- reasons for not using json generators (e.g., json_serializable)
+
+what needs api doc:
+
+- repositories
+- clients
+
+improvements:
+
+- performance, etc...
