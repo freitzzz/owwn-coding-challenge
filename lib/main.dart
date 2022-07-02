@@ -12,8 +12,10 @@ void main() {
   );
 
   BlocOverrides.runZoned(
-    () {
-      final vault = createVault(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      final vault = await createVault(
         isReleaseMode: kReleaseMode,
       );
 
