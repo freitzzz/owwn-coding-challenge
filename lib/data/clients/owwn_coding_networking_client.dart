@@ -2,9 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' hide Request, Response;
 import 'package:networking/networking.dart';
 
-const authEndpoint = '/auth';
-const refreshEndpoint = '/refresh';
-const usersEndpoint = '/users';
+const authEndpoint = 'auth';
+const refreshEndpoint = 'refresh';
+const usersEndpoint = 'users';
 
 class OWWNCodingNetworkingClient extends NetworkingClient {
   OWWNCodingNetworkingClient()
@@ -19,7 +19,7 @@ class OWWNCodingNetworkingClient extends NetworkingClient {
   }) {
     return super.send(
       request: request.copyWith(
-        headers: request.headers
+        headers: Map.of(request.headers)
           ..addAll(
             {
               'X-API-KEY': 'owwn-challenge-22bbdk',
