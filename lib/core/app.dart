@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:owwn_coding_challenge/blocs/blocs.dart';
 import 'package:owwn_coding_challenge/core/core.dart';
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
@@ -19,10 +18,12 @@ class OWWNCodingApp extends StatelessWidget {
         title: 'Flutter Coding Challenge',
         theme: owwnCodingLightTheme,
         darkTheme: owwnCodingDarkTheme,
+        themeMode: ThemeMode.dark,
         localizationsDelegates: const [
           AppLocalizations.delegate,
         ],
         supportedLocales: supportedLocales,
+        home: appNavigator,
       ),
     );
   }
