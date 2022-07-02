@@ -1,6 +1,6 @@
 name: owwn_coding_challenge
 description: OWWN Coding Challenge.
-publish_to: 'none'
+publish_to: "none"
 
 version: 0.0.1+1
 
@@ -9,9 +9,13 @@ environment:
   flutter: ">=3.0.2"
 
 dependencies:
-  cupertino_icons: ^1.0.5
+  dartz: ^0.10.1
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.0.1
+  intl: ^0.17.0
+  lumberdash: ^3.0.0
+  networking: ^0.0.2
 
 dev_dependencies:
   flutter_test:
