@@ -36,54 +36,6 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Coding Challenge',
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.dark,
-      home: const FirstPage(),
-    );
-  }
-}
-
-class FirstPage extends StatelessWidget {
-  const FirstPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Transform.translate(
-          offset: const Offset(0, -68),
-          child: SizedBox.square(
-            dimension: 136,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const SecondPage();
-                  },
-                ),
-              ),
-              child: const DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    colors: [
-                      Colors.white,
-                      Colors.transparent,
-                    ],
-                    stops: [.8, 1],
-                  ),
-                ),
-                child: Center(
-                  child: Text(
-                    'Press to start',
-                    style: TextStyle(
-                      color: Colors.black,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
     );
   }
 }
