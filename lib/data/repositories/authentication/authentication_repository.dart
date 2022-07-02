@@ -8,7 +8,9 @@ abstract class AuthenticationRepository {
     required final Credentials credentials,
   });
 
-  Future<Either<AuthenticationError, Session>> refresh();
+  Future<Either<AuthenticationError, Session>> refresh({
+    required final Session session,
+  });
 }
 
 class FakeAuthenticationRepository extends AuthenticationRepository {
@@ -29,7 +31,9 @@ class FakeAuthenticationRepository extends AuthenticationRepository {
   }
 
   @override
-  Future<Either<AuthenticationError, Session>> refresh() {
+  Future<Either<AuthenticationError, Session>> refresh({
+    required Session session,
+  }) {
     return Future.value(
       Right(
         Session.fromJson(_fakeSession),
@@ -40,8 +44,6 @@ class FakeAuthenticationRepository extends AuthenticationRepository {
 
 class OWWNAuthenticationRepository extends AuthenticationRepository {
   final OWWNCodingNetworkingClient client;
-
-  late Session session;
 
   OWWNAuthenticationRepository({
     required this.client,
@@ -58,16 +60,15 @@ class OWWNAuthenticationRepository extends AuthenticationRepository {
           data: credentials.toJson().encode,
         );
 
-        final sessionFold = _foldSessionResponse(response);
-        session = sessionFold.getOrElse(() => session);
-
-        return sessionFold;
+        return _foldSessionResponse(response);
       },
     );
   }
 
   @override
-  Future<Either<AuthenticationError, Session>> refresh() {
+  Future<Either<AuthenticationError, Session>> refresh({
+    required Session session,
+  }) {
     return safeAsyncThrowCall(
       () async {
         final response = await client.post(
@@ -75,10 +76,7 @@ class OWWNAuthenticationRepository extends AuthenticationRepository {
           data: session.toRefreshJson().encode,
         );
 
-        final sessionFold = _foldSessionResponse(response);
-        session = sessionFold.getOrElse(() => session);
-
-        return sessionFold;
+        return _foldSessionResponse(response);
       },
     );
   }
