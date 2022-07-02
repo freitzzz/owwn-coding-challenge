@@ -17,6 +17,7 @@ dependencies:
   jwt_io: ^1.1.6
   lumberdash: ^3.0.0
   networking: ^0.0.3
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
