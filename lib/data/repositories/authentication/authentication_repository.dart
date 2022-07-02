@@ -10,3 +10,23 @@ abstract class AuthenticationRepository {
     required final String token,
   });
 }
+
+class FakeAuthenticationRepository extends AuthenticationRepository {
+  @override
+  Future<Either<AuthenticationError, void>> auth({
+    required String email,
+  }) {
+    return Future.value(
+      const Right(null),
+    );
+  }
+
+  @override
+  Future<Either<AuthenticationError, void>> refresh({
+    required String token,
+  }) {
+    return Future.value(
+      const Right(null),
+    );
+  }
+}
