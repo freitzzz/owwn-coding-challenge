@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:owwn_coding_challenge/models/errors/errors.dart';
 import 'package:owwn_coding_challenge/presentation/l10n/messages/messages_all.dart';
 
 const supportedLocales = [
@@ -31,6 +32,44 @@ class AppLocalizations {
       desc: 'The word e-mail',
       locale: localeName,
     );
+  }
+
+  String get invalidCredentialsOnAuthenticationError {
+    return Intl.message(
+      'Credentials not authorized.',
+      name: 'invalidCredentialsOnAuthenticationError',
+      desc: 'Describes the reason for the error case of invalid credentails',
+      locale: localeName,
+    );
+  }
+
+  String get invalidSessionOnAuthenticationError {
+    return Intl.message(
+      'Credentials not authorized.',
+      name: 'invalidCredentialsOnAuthenticationError',
+      desc: 'Describes the reason for the error case of invalid credentails',
+      locale: localeName,
+    );
+  }
+
+  String get unknownErrorOnAuthenticationError {
+    return Intl.message(
+      "An issue occurred while processing some data. Don't worry, this is an issue on our end.",
+      name: 'unknownErrorOnAuthenticationError',
+      desc: 'Describes the reason for an unknown authentication error',
+      locale: localeName,
+    );
+  }
+
+  String authenticationError(final AuthenticationError error) {
+    switch (error.runtimeType) {
+      case InvalidCredentialsAuthenticationError:
+        return invalidCredentialsOnAuthenticationError;
+      case InvalidSessionAuthenticationError:
+        return invalidSessionOnAuthenticationError;
+      default:
+        return unknownErrorOnAuthenticationError;
+    }
   }
 
   static Future<AppLocalizations> load(Locale locale) {
