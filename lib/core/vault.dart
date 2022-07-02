@@ -1,3 +1,5 @@
+import 'package:owwn_coding_challenge/data/data.dart';
+
 class Vault<T> {
   final _vault = <Type, T>{};
 
@@ -12,7 +14,18 @@ Vault<Object> createVault({
   final vault = Vault<Object>();
 
   if (isReleaseMode) {
-  } else {}
+    final owwnCodingClient = OWWNCodingNetworkingClient();
+
+    vault.store<AuthenticationRepository>(
+      OWWNAuthenticationRepository(
+        client: owwnCodingClient,
+      ),
+    );
+  } else {
+    vault.store<AuthenticationRepository>(
+      FakeAuthenticationRepository(),
+    );
+  }
 
   return vault;
 }
