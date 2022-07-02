@@ -6,6 +6,7 @@ class Session {
   final String refreshToken;
 
   bool get hasExpired =>
+      refreshToken != '' &&
       JwtToken.getExpirationDate(refreshToken).isBefore(DateTime.now());
 
   const Session({
