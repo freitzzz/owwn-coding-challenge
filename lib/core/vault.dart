@@ -29,6 +29,12 @@ Future<Vault<Object>> createVault({
         sharedPreferences: sharedPreferences,
       ),
     );
+
+    vault.store<UsersRepository>(
+      OWWNUsersRepository(
+        client: owwnCodingClient,
+      ),
+    );
   } else {
     vault.store<AuthenticationRepository>(
       FakeAuthenticationRepository(),
@@ -36,6 +42,10 @@ Future<Vault<Object>> createVault({
 
     vault.store<DeviceRepository>(
       FakeDeviceRepository(),
+    );
+
+    vault.store<UsersRepository>(
+      FakeUsersRepository(),
     );
   }
 
