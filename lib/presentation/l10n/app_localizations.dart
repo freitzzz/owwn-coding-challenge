@@ -15,11 +15,20 @@ class AppLocalizations {
 
   const AppLocalizations(this.localeName);
 
-  String get hello {
+  String get authenticate {
     return Intl.message(
-      'Hello',
-      name: 'hello',
-      desc: 'The word hello',
+      'Authenticate',
+      name: 'authenticate',
+      desc: 'The word authenticate',
+      locale: localeName,
+    );
+  }
+
+  String get email {
+    return Intl.message(
+      'E-mail',
+      name: 'email',
+      desc: 'The word e-mail',
       locale: localeName,
     );
   }
