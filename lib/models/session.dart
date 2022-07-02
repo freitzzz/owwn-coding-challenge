@@ -13,6 +13,8 @@ class Session {
     required this.refreshToken,
   });
 
+  const Session.expired() : this(accessToken: '', refreshToken: '');
+
   Session.fromJson(
     final Map<String, dynamic> json,
   )   : accessToken = json['access_token'] as String,
