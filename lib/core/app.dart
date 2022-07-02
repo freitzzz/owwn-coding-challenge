@@ -18,6 +18,8 @@ class OWWNCodingApp extends StatelessWidget {
       child: BlocProvider(
         lazy: false,
         create: (context) => AppBloc(
+          authenticationRepository: vault.lookup<AuthenticationRepository>()
+              as AuthenticationRepository,
           deviceRepository:
               vault.lookup<DeviceRepository>() as DeviceRepository,
         )..add(AppStarted()),
