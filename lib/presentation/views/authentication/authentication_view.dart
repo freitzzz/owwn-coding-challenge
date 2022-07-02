@@ -14,36 +14,46 @@ class AuthenticationView extends StatelessWidget {
     final emailTextEditingController = TextEditingController();
 
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: sixteenPoints,
-            ),
-            child: TextFormField(
-              controller: emailTextEditingController,
-              decoration: InputDecoration(
-                labelText: localizations.email,
+      body: BlocListener<AuthenticationBloc, AuthenticationState>(
+        listener: (context, state) {
+          if (state is AuthenticationFailure) {
+            showTextSnackbar(
+              context,
+              localizations.authenticationError(state.error),
+            );
+          }
+        },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: sixteenPoints,
+              ),
+              child: TextFormField(
+                controller: emailTextEditingController,
+                decoration: InputDecoration(
+                  labelText: localizations.email,
+                ),
               ),
             ),
-          ),
-          const SizedBox.square(
-            dimension: thirtyTwoPoints,
-          ),
-          ElevatedButton(
-            child: Text(
-              localizations.authenticate,
+            const SizedBox.square(
+              dimension: thirtyTwoPoints,
             ),
-            onPressed: () {
-              authenticationBloc.add(
-                AuthenticationEvent(
-                  email: emailTextEditingController.text,
-                ),
-              );
-            },
-          ),
-        ],
+            ElevatedButton(
+              child: Text(
+                localizations.authenticate,
+              ),
+              onPressed: () {
+                authenticationBloc.add(
+                  AuthenticationEvent(
+                    email: emailTextEditingController.text,
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
