@@ -62,6 +62,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         authenticationSession = event.session;
 
         _schedulePeriodicSessionRefresh();
+
+        emit(
+          AppRefresh(
+            isAuthenticated: !authenticationSession.hasExpired,
+          ),
+        );
       },
     );
 
