@@ -41,10 +41,10 @@ class FakeDeviceRepository extends DeviceRepository {
   }
 }
 
-class LiveDeviceRepository extends DeviceRepository {
+class SharedPreferencesDeviceRepository extends DeviceRepository {
   final SharedPreferences sharedPreferences;
 
-  LiveDeviceRepository({
+  SharedPreferencesDeviceRepository({
     required this.sharedPreferences,
   });
 

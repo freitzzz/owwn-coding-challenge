@@ -25,7 +25,7 @@ Future<Vault<Object>> createVault({
     );
 
     vault.store<DeviceRepository>(
-      LiveDeviceRepository(
+      SharedPreferencesDeviceRepository(
         sharedPreferences: sharedPreferences,
       ),
     );
