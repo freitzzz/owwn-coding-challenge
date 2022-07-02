@@ -40,15 +40,14 @@ class AuthenticationView extends StatelessWidget {
             const SizedBox.square(
               dimension: thirtyTwoPoints,
             ),
-            ElevatedButton(
-              child: Text(
-                localizations.authenticate,
-              ),
-              onPressed: () {
-                authenticationBloc.add(
-                  AuthenticationEvent(
-                    email: emailTextEditingController.text,
+            BlocBuilder<AuthenticationBloc, AuthenticationState>(
+              builder: (context, state) {
+                return ElevatedButton(
+                  onPressed: _onAuthenticateButtonPressed(
+                    authenticationBloc,
+                    emailTextEditingController,
                   ),
+                  child: Text(localizations.authenticate),
                 );
               },
             ),
@@ -56,5 +55,24 @@ class AuthenticationView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  VoidCallback? _onAuthenticateButtonPressed(
+    final AuthenticationBloc authenticationBloc,
+    final TextEditingController emailTextEditingController,
+  ) {
+    VoidCallback? callback;
+
+    if (authenticationBloc.state is! AuthenticationInProgress) {
+      callback = () {
+        authenticationBloc.add(
+          AuthenticationEvent(
+            email: emailTextEditingController.text,
+          ),
+        );
+      };
+    }
+
+    return callback;
   }
 }
