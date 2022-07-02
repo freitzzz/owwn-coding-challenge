@@ -6,6 +6,13 @@ const authEndpoint = 'auth';
 const refreshEndpoint = 'refresh';
 const usersEndpoint = 'users';
 
+Map<String, String> usersQueryParameters(final int page, final int limit) {
+  return {
+    'page': page.toString(),
+    'limit': limit.toString(),
+  };
+}
+
 class OWWNCodingNetworkingClient extends NetworkingClient {
   OWWNCodingNetworkingClient()
       : super(
