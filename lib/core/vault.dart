@@ -1,4 +1,5 @@
 import 'package:owwn_coding_challenge/data/data.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Vault<T> {
   final _vault = <Type, T>{};
@@ -8,22 +9,33 @@ class Vault<T> {
   T? lookup<S extends T>() => _vault[S];
 }
 
-Vault<Object> createVault({
+Future<Vault<Object>> createVault({
   required final bool isReleaseMode,
-}) {
+}) async {
   final vault = Vault<Object>();
 
-  if (isReleaseMode) {
+  if (!isReleaseMode) {
     final owwnCodingClient = OWWNCodingNetworkingClient();
+    final sharedPreferences = await SharedPreferences.getInstance();
 
     vault.store<AuthenticationRepository>(
       OWWNAuthenticationRepository(
         client: owwnCodingClient,
       ),
     );
+
+    vault.store<DeviceRepository>(
+      LiveDeviceRepository(
+        sharedPreferences: sharedPreferences,
+      ),
+    );
   } else {
     vault.store<AuthenticationRepository>(
       FakeAuthenticationRepository(),
+    );
+
+    vault.store<DeviceRepository>(
+      FakeDeviceRepository(),
     );
   }
 
