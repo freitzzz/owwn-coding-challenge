@@ -8,6 +8,7 @@ class AuthenticationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appBloc = context.read<AppBloc>();
     final authenticationBloc = context.read<AuthenticationBloc>();
     final localizations = AppLocalizations.of(context);
 
@@ -20,6 +21,10 @@ class AuthenticationView extends StatelessWidget {
             showTextSnackbar(
               context,
               localizations.authenticationError(state.error),
+            );
+          } else if (state is AuthenticationSuccess) {
+            appBloc.add(
+              AppAuthenticated(session: state.session),
             );
           }
         },
