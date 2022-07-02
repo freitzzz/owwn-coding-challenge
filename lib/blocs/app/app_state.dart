@@ -25,3 +25,9 @@ class AppRefresh extends AppState {
     required super.isAuthenticated,
   });
 }
+
+class RefreshSessionFailure extends AppRefresh {
+  RefreshSessionFailure({
+    required super.isAuthenticated,
+  });
+}
