@@ -1,0 +1,1 @@
+const sessionKey = 'auth.session';
