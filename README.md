@@ -125,3 +125,19 @@ Response: (\*optional)
    "total": 121
 }
 ```
+
+
+things to talk in write-up:
+
+- folder structure
+- state management
+- barrel files
+- kiss
+- minimal dependencies
+- logging
+- networking + dio
+- monads for removing side effects
+- repositories
+- models and error models
+- compare owwn clean architecture with project architecture
+- intl

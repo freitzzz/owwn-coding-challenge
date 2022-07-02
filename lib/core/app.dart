@@ -16,7 +16,7 @@ class OWWNCodingApp extends StatelessWidget {
     return RepositoryProvider<Vault>(
       create: (context) => vault,
       child: MaterialApp(
-        title: 'owwn coding',
+        title: 'Flutter Coding Challenge',
         theme: owwnCodingLightTheme,
         darkTheme: owwnCodingDarkTheme,
         localizationsDelegates: const [
