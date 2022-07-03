@@ -83,7 +83,16 @@ class AppLocalizations {
     return Intl.message(
       'Users',
       name: 'usersTitle',
-      desc: 'Title of users oage',
+      desc: 'Title of users page',
+      locale: localeName,
+    );
+  }
+
+  String get statisticsNotAvailable {
+    return Intl.message(
+      'No statistics available.',
+      name: 'statisticsNotAvailable',
+      desc: 'Label that informs that an user has no statistics',
       locale: localeName,
     );
   }
