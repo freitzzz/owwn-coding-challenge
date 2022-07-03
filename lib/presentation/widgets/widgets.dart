@@ -1,6 +1,7 @@
 export 'package:flutter/material.dart';
 
 export 'avatar.dart';
+export 'charts.dart';
 export 'dimensions.dart';
 export 'icons.dart';
 export 'images.dart';

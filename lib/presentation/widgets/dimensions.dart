@@ -9,3 +9,4 @@ const twentyFourPoints = 24.0;
 const thirtyTwoPoints = 32.0;
 const fortyEightPoints = 48.0;
 const sixtyFourPoints = 64.0;
+const oneHundredPoints = 100.0;
