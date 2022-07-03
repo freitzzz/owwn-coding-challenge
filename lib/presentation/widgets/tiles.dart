@@ -24,9 +24,12 @@ class UserListTile extends StatelessWidget {
 
   final User user;
 
+  final VoidCallback onTap;
+
   const UserListTile({
     super.key,
     required this.user,
+    required this.onTap,
     this.isFirstInGroup = false,
     this.isLastInGroup = false,
   });
@@ -48,6 +51,7 @@ class UserListTile extends StatelessWidget {
       leading: UserAvatar.tile(
         user: user,
       ),
+      onTap: onTap,
     );
   }
 }
