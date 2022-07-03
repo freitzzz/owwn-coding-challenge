@@ -28,11 +28,12 @@ final owwnCodingDarkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: _darkColorScheme,
   scaffoldBackgroundColor: _darkColorScheme.background,
-  appBarTheme: const AppBarTheme(
-    titleTextStyle: TextStyle(
+  appBarTheme: AppBarTheme(
+    titleTextStyle: const TextStyle(
       color: Colors.white,
       fontSize: 2 * tenPoints,
     ),
+    backgroundColor: _darkColorScheme.background,
   ),
   primaryColorDark: const Color(0xFF393939),
   listTileTheme: const ListTileThemeData(
