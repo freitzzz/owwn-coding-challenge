@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
 final _textThemeLight = ThemeData.light().textTheme;
@@ -38,5 +37,16 @@ final owwnCodingDarkTheme = ThemeData(
   primaryColorDark: const Color(0xFF393939),
   listTileTheme: const ListTileThemeData(
     tileColor: Color(0xFF2B2B2B),
+  ),
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStateProperty.all(_seed),
+      foregroundColor: MaterialStateProperty.all(Colors.white),
+      shape: MaterialStateProperty.all(
+        ContinuousRectangleBorder(
+          borderRadius: BorderRadius.circular(tenPoints),
+        ),
+      ),
+    ),
   ),
 );
