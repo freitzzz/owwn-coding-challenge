@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
 final _textThemeLight = ThemeData.light().textTheme;
 final _textThemeDark = ThemeData.dark().textTheme;
@@ -28,6 +29,12 @@ final owwnCodingDarkTheme = ThemeData(
   useMaterial3: true,
   colorScheme: _darkColorScheme,
   scaffoldBackgroundColor: _darkColorScheme.background,
+  appBarTheme: const AppBarTheme(
+    titleTextStyle: TextStyle(
+      color: Colors.white,
+      fontSize: 2 * tenPoints,
+    ),
+  ),
   primaryColorDark: const Color(0xFF393939),
   listTileTheme: const ListTileThemeData(
     tileColor: Color(0xFF2B2B2B),
