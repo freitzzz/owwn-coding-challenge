@@ -26,6 +26,8 @@ class AuthenticationView extends StatelessWidget {
             appBloc.add(
               AppAuthenticated(session: state.session),
             );
+
+            AppNavigator.of(context).setNewRoute(usersRoute);
           }
         },
         child: Column(
