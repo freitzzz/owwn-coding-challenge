@@ -22,6 +22,7 @@ class UsersView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    final usersBloc = context.read<UsersBloc>();
 
     return Scaffold(
       body: CustomScrollView(
@@ -142,6 +143,15 @@ class UsersView extends StatelessWidget {
                       }
                     },
                     childCount: state.totalCount,
+                    semanticIndexCallback: (widget, index) {
+                      if (state.canRequestMoreUsers(index)) {
+                        usersBloc.add(
+                          FetchUsersEvent(),
+                        );
+                      }
+
+                      return null;
+                    },
                   ),
                 ),
               );

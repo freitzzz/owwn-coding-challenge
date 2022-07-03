@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:owwn_coding_challenge/data/data.dart';
-import 'package:owwn_coding_challenge/models/user.dart';
+import 'package:owwn_coding_challenge/models/models.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';
@@ -27,6 +27,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         final state = result.fold(
           (l) => FetchUsersFailure(
             users: _fetchedUsers,
+            limit: _limitPerUsersFetch,
           ),
           (r) {
             _fetchedUsers = [
@@ -39,6 +40,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
             return FetchUsersSuccess(
               users: _fetchedUsers,
+              limit: _limitPerUsersFetch,
             );
           },
         );
