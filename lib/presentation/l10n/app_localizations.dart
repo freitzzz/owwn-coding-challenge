@@ -61,6 +61,33 @@ class AppLocalizations {
     );
   }
 
+  String get active {
+    return Intl.message(
+      'Active',
+      name: 'active',
+      desc: 'The word active',
+      locale: localeName,
+    );
+  }
+
+  String get inactive {
+    return Intl.message(
+      'Inactive',
+      name: 'inactive',
+      desc: 'The word inactive',
+      locale: localeName,
+    );
+  }
+
+  String get usersTitle {
+    return Intl.message(
+      'Users',
+      name: 'usersTitle',
+      desc: 'Title of users oage',
+      locale: localeName,
+    );
+  }
+
   String authenticationError(final AuthenticationError error) {
     switch (error.runtimeType) {
       case InvalidCredentialsAuthenticationError:
