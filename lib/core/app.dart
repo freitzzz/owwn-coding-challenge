@@ -32,7 +32,7 @@ class OWWNCodingApp extends StatelessWidget {
             AppLocalizations.delegate,
           ],
           supportedLocales: supportedLocales,
-          home: appNavigator,
+          home: const AppNavigator(),
         ),
       ),
     );
