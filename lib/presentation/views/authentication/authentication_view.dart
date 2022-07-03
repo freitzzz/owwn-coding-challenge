@@ -27,7 +27,9 @@ class AuthenticationView extends StatelessWidget {
               AppAuthenticated(session: state.session),
             );
 
-            AppNavigator.of(context).setNewRoute(usersRoute);
+            AppNavigator.of(context).setNewRoute(
+              const UsersPageArguments(),
+            );
           }
         },
         child: Column(

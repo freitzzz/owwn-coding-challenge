@@ -1,8 +1,7 @@
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
 import 'package:owwn_coding_challenge/presentation/routing/pages.dart';
 
-const authenticationRoute = '/authentication';
-const usersRoute = '/users';
+export 'arguments.dart';
 
 class AppNavigator extends StatefulWidget {
   const AppNavigator({
@@ -18,24 +17,28 @@ class AppNavigator extends StatefulWidget {
 }
 
 class AppNavigatorState extends State<AppNavigator> {
-  String route = authenticationRoute;
+  PageArguments arguments = const AuthenticationPageArguments();
 
   @override
   Widget build(BuildContext context) {
     return Navigator(
       pages: [
-        const UserPage(),
-        // if (route == authenticationRoute) AuthenticationPage(),
-        // if (route == usersRoute) UsersPage(),
+        if (arguments is AuthenticationPageArguments) AuthenticationPage(),
+        if (arguments is UsersPageArguments || arguments is UserPageArguments)
+          UsersPage(),
+        if (arguments is UserPageArguments)
+          UserPage(
+            user: (arguments as UserPageArguments).user,
+          ),
       ],
       onPopPage: (route, result) => route.didPop(result),
     );
   }
 
-  void setNewRoute(final String route) {
+  void setNewRoute(final PageArguments arguments) {
     setState(
       () {
-        this.route = route;
+        this.arguments = arguments;
       },
     );
   }

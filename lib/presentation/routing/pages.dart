@@ -1,6 +1,7 @@
 import 'package:owwn_coding_challenge/blocs/blocs.dart';
 import 'package:owwn_coding_challenge/core/core.dart';
 import 'package:owwn_coding_challenge/data/data.dart';
+import 'package:owwn_coding_challenge/models/models.dart';
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
 class AuthenticationPage extends MaterialPage {
@@ -32,8 +33,15 @@ class UsersPage extends MaterialPage {
 }
 
 class UserPage extends MaterialPage {
-  const UserPage()
-      : super(
-          child: const UserView(),
+  UserPage({
+    required final User user,
+  }) : super(
+          child: BlocProvider(
+            lazy: false,
+            create: (context) => UserBloc(
+              user: user,
+            ),
+            child: const UserView(),
+          ),
         );
 }

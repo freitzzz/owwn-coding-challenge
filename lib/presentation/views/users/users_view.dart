@@ -81,6 +81,14 @@ class UsersView extends StatelessWidget {
                         nextUser,
                       );
 
+                      void onTileTap() {
+                        AppNavigator.of(context).setNewRoute(
+                          UserPageArguments(
+                            user: currentUser,
+                          ),
+                        );
+                      }
+
                       if (isFirstActiveUser) {
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -101,6 +109,7 @@ class UsersView extends StatelessWidget {
                                 isLastInGroup:
                                     !isFirstActiveUser && isLastActiveUser,
                                 user: currentUser,
+                                onTap: onTileTap,
                               ),
                             ),
                           ],
@@ -125,6 +134,7 @@ class UsersView extends StatelessWidget {
                                 isLastInGroup:
                                     !isFirstInactiveUser && isLastInactiveUser,
                                 user: currentUser,
+                                onTap: onTileTap,
                               ),
                             ),
                           ],
@@ -138,6 +148,7 @@ class UsersView extends StatelessWidget {
                             isLastInGroup:
                                 isLastActiveUser || isLastInactiveUser,
                             user: currentUser,
+                            onTap: onTileTap,
                           ),
                         );
                       }
