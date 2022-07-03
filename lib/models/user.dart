@@ -25,6 +25,8 @@ class User {
 
   bool get active => status == Status.active;
 
+  bool get hasStatistics => statistics.isNotEmpty;
+
   const User({
     required this.id,
     required this.email,
