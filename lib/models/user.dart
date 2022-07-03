@@ -11,6 +11,20 @@ class User {
 
   final List<double> statistics;
 
+  String get initials {
+    final nameSplit = name.split(' ');
+
+    if (nameSplit.length >= 2) {
+      return '${nameSplit.first[0]}${nameSplit.last[0]}'.toUpperCase();
+    } else if (name.length >= 2) {
+      return '${name[0]}${name[1]}'.toUpperCase();
+    } else {
+      return '';
+    }
+  }
+
+  bool get active => status == Status.active;
+
   const User({
     required this.id,
     required this.email,
