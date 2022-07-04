@@ -17,7 +17,7 @@ class AppNavigator extends StatefulWidget {
 }
 
 class AppNavigatorState extends State<AppNavigator> {
-  PageArguments arguments = const AuthenticationPageArguments();
+  PageArguments arguments = const SplashPageArguments();
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,7 @@ class AppNavigatorState extends State<AppNavigator> {
 
     return Navigator(
       pages: [
+        if (arguments is SplashPageArguments) SplashPage(),
         if (arguments is AuthenticationPageArguments) AuthenticationPage(),
         if (arguments is UsersPageArguments || arguments is UserPageArguments)
           UsersPage(),

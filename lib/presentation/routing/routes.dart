@@ -1,3 +1,4 @@
 const authenticationRoute = '/authentication';
-const usersRoute = '/users';
+const splashRote = '/';
 const userRoute = '/user';
+const usersRoute = '/users';

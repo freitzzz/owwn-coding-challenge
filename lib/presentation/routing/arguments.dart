@@ -10,6 +10,10 @@ abstract class PageArguments {
   });
 }
 
+class SplashPageArguments extends PageArguments {
+  const SplashPageArguments() : super(route: splashRote);
+}
+
 class AuthenticationPageArguments extends PageArguments {
   const AuthenticationPageArguments() : super(route: authenticationRoute);
 }

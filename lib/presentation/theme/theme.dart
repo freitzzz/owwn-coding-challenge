@@ -3,15 +3,15 @@ import 'package:owwn_coding_challenge/presentation/presentation.dart';
 final _textThemeLight = ThemeData.light().textTheme;
 final _textThemeDark = ThemeData.dark().textTheme;
 
-const _seed = Color(0xFF2E22F7);
+const seedColor = Color(0xFF2E22F7);
 
 final _lightColorScheme = ColorScheme.fromSeed(
-  seedColor: _seed,
+  seedColor: seedColor,
   background: Colors.white,
 );
 
 final _darkColorScheme = ColorScheme.fromSeed(
-  seedColor: _seed,
+  seedColor: seedColor,
   background: Colors.black,
   brightness: Brightness.dark,
 );
@@ -41,7 +41,7 @@ final owwnCodingDarkTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStateProperty.all(_seed),
+      backgroundColor: MaterialStateProperty.all(seedColor),
       foregroundColor: MaterialStateProperty.all(Colors.white),
       shape: MaterialStateProperty.all(
         ContinuousRectangleBorder(

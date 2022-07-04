@@ -3,6 +3,28 @@ import 'package:owwn_coding_challenge/core/core.dart';
 import 'package:owwn_coding_challenge/data/data.dart';
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
+class SplashPage extends MaterialPage {
+  SplashPage()
+      : super(
+          child: BlocListener<AppBloc, AppState>(
+            listener: (context, state) {
+              final appNavigator = AppNavigator.of(context);
+
+              if (state.isAuthenticated) {
+                appNavigator.setNewRoute(
+                  const UsersPageArguments(),
+                );
+              } else {
+                appNavigator.setNewRoute(
+                  const AuthenticationPageArguments(),
+                );
+              }
+            },
+            child: const SplashView(),
+          ),
+        );
+}
+
 class AuthenticationPage extends MaterialPage {
   AuthenticationPage()
       : super(
