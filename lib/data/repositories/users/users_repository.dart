@@ -8,6 +8,10 @@ abstract class UsersRepository {
     required final int page,
     required final int limit,
   });
+
+  Future<Either<RequestError, void>> update({
+    required final User user,
+  });
 }
 
 class FakeUsersRepository extends UsersRepository {
@@ -135,6 +139,15 @@ class FakeUsersRepository extends UsersRepository {
       Right(_fakeUsers),
     );
   }
+
+  @override
+  Future<Either<RequestError, void>> update({
+    required final User user,
+  }) {
+    return Future.value(
+      const Right(null),
+    );
+  }
 }
 
 class OWWNUsersRepository extends UsersRepository {
@@ -180,6 +193,15 @@ class OWWNUsersRepository extends UsersRepository {
           },
         );
       },
+    );
+  }
+
+  @override
+  Future<Either<RequestError, void>> update({
+    required User user,
+  }) {
+    return Future.value(
+      const Right(null),
     );
   }
 }
