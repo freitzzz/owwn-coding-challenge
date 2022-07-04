@@ -14,6 +14,8 @@ Map<String, String> usersQueryParameters(final int page, final int limit) {
 }
 
 class OWWNCodingNetworkingClient extends NetworkingClient {
+  String? _accessToken;
+
   OWWNCodingNetworkingClient()
       : super(
           baseUrl: Uri.parse('https://ccoding.owwn.com/hermes'),
@@ -30,9 +32,14 @@ class OWWNCodingNetworkingClient extends NetworkingClient {
           ..addAll(
             {
               'X-API-KEY': 'owwn-challenge-22bbdk',
+              if (_accessToken != null) 'Authorization': 'Bearer $_accessToken',
             },
           ),
       ),
     );
+  }
+
+  void setAccessToken(final String accessToken) {
+    _accessToken = accessToken;
   }
 }

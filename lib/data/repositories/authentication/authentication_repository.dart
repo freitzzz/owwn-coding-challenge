@@ -88,9 +88,11 @@ class OWWNAuthenticationRepository extends AuthenticationRepository {
       (l) => Left(AuthenticationError.from(l)),
       (r) {
         if (r is JsonResponse) {
-          return Right(
-            Session.fromJson(r.json),
-          );
+          final session = Session.fromJson(r.json);
+
+          client.setAccessToken(session.accessToken);
+
+          return Right(session);
         } else if (r is ErrorResponse) {
           return Left(
             AuthenticationError.parse(r),
