@@ -14,7 +14,7 @@ Future<Vault<Object>> createVault({
 }) async {
   final vault = Vault<Object>();
 
-  if (!isReleaseMode) {
+  if (isReleaseMode) {
     final owwnCodingClient = OWWNCodingNetworkingClient();
     final sharedPreferences = await SharedPreferences.getInstance();
 
