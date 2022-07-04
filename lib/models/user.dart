@@ -47,7 +47,9 @@ class User {
         status = Status.parse(json['status'] as String),
         name = json['name'] as String,
         statistics = List.from(
-          (json['statistics'] ?? []) as List<dynamic>,
+          ((json['statistics'] ?? []) as List<dynamic>).map(
+            (x) => (x as num).toDouble(),
+          ),
         );
 
   User copyWith({
@@ -101,8 +103,9 @@ enum Status {
 List<User> parseUsersJson(
   final Map<String, dynamic> json,
 ) {
-  final users =
-      (json['users'] ?? <Map<String, dynamic>>[]) as List<Map<String, dynamic>>;
+  final users = List<Map<String, dynamic>>.from(
+    (json['users'] ?? <Map<String, dynamic>>[]) as List<dynamic>,
+  );
 
   return users.map(User.fromJson).toList();
 }

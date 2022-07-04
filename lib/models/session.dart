@@ -2,17 +2,19 @@ import 'package:jwt_io/jwt_io.dart';
 
 const _almostExpiringDuration = Duration(minutes: 10);
 
+const _jwtPrefix = 'eyJ';
+
 class Session {
   final String accessToken;
 
   final String refreshToken;
 
   bool get hasExpired =>
-      refreshToken != '' &&
+      refreshToken.startsWith(_jwtPrefix) &&
       JwtToken.getExpirationDate(refreshToken).isBefore(DateTime.now());
 
   bool get isAlmostExpiring =>
-      refreshToken != '' &&
+      refreshToken.startsWith(_jwtPrefix) &&
       JwtToken.getExpirationDate(refreshToken).difference(DateTime.now()) <
           _almostExpiringDuration;
 
