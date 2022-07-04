@@ -12,5 +12,4 @@ class AppAuthenticated extends AppEvent {
   });
 }
 
-@visibleForTesting
 class RefreshSessionStarted extends AppEvent {}

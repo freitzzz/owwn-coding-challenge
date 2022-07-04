@@ -11,6 +11,10 @@ abstract class AuthenticationRepository {
   Future<Either<AuthenticationError, Session>> refresh({
     required final Session session,
   });
+
+  void setSession({
+    required final Session session,
+  });
 }
 
 class FakeAuthenticationRepository extends AuthenticationRepository {
@@ -40,6 +44,11 @@ class FakeAuthenticationRepository extends AuthenticationRepository {
       ),
     );
   }
+
+  @override
+  void setSession({
+    required Session session,
+  }) {}
 }
 
 class OWWNAuthenticationRepository extends AuthenticationRepository {
@@ -90,7 +99,7 @@ class OWWNAuthenticationRepository extends AuthenticationRepository {
         if (r is JsonResponse) {
           final session = Session.fromJson(r.json);
 
-          client.setAccessToken(session.accessToken);
+          setSession(session: session);
 
           return Right(session);
         } else if (r is ErrorResponse) {
@@ -107,5 +116,12 @@ class OWWNAuthenticationRepository extends AuthenticationRepository {
         }
       },
     );
+  }
+
+  @override
+  void setSession({
+    required Session session,
+  }) {
+    client.setAccessToken(session.accessToken);
   }
 }

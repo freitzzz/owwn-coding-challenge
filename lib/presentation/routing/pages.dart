@@ -1,6 +1,7 @@
 import 'package:owwn_coding_challenge/blocs/blocs.dart';
 import 'package:owwn_coding_challenge/core/core.dart';
 import 'package:owwn_coding_challenge/data/data.dart';
+import 'package:owwn_coding_challenge/models/models.dart';
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
 class SplashPage extends MaterialPage {
@@ -48,7 +49,40 @@ class UsersPage extends MaterialPage {
               usersRepository: context.read<Vault>().lookup<UsersRepository>()
                   as UsersRepository,
             )..add(FetchUsersEvent()),
-            child: const UsersView(),
+            child: MultiBlocListener(
+              listeners: [
+                BlocListener<UsersBloc, UsersState>(
+                  listener: (context, state) {
+                    if (state is FetchUsersFailure &&
+                        state.error is InvalidSessionAuthenticationError) {
+                      final appBloc = context.read<AppBloc>();
+
+                      appBloc.add(
+                        RefreshSessionStarted(),
+                      );
+                    }
+                  },
+                ),
+                BlocListener<AppBloc, AppState>(
+                  listener: (context, state) {
+                    if (state is AppRefresh) {
+                      final usersBloc = context.read<UsersBloc>();
+
+                      usersBloc.add(
+                        FetchUsersEvent(),
+                      );
+                    } else if (state is RefreshSessionFailure) {
+                      final appNavigator = AppNavigator.of(context);
+
+                      appNavigator.setNewRoute(
+                        const AuthenticationPageArguments(),
+                      );
+                    }
+                  },
+                ),
+              ],
+              child: const UsersView(),
+            ),
           ),
         );
 }

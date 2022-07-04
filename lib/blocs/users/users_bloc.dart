@@ -12,6 +12,8 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
 
   int _currentUsersFetchPage = 0;
 
+  int _lastFetchPage = 0;
+
   List<User> _fetchedUsers = [];
 
   UsersBloc({
@@ -19,33 +21,38 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
   }) : super(const UsersInitial()) {
     on<FetchUsersEvent>(
       (event, emit) async {
-        final result = await usersRepository.users(
-          page: _currentUsersFetchPage,
-          limit: _limitPerUsersFetch,
-        );
-
-        final state = result.fold(
-          (l) => FetchUsersFailure(
-            users: _fetchedUsers,
+        if (_lastFetchPage == _currentUsersFetchPage) {
+          final result = await usersRepository.users(
+            page: _currentUsersFetchPage,
             limit: _limitPerUsersFetch,
-          ),
-          (r) {
-            _fetchedUsers = [
-              ..._fetchedUsers,
-              ...r.where((x) => x.active),
-              ...r.where((x) => !x.active),
-            ];
+          );
 
-            _currentUsersFetchPage++;
+          _lastFetchPage++;
 
-            return FetchUsersSuccess(
+          final state = result.fold(
+            (l) => FetchUsersFailure(
               users: _fetchedUsers,
-              limit: _limitPerUsersFetch,
-            );
-          },
-        );
+              hasFetchedAllUsers: this.state.hasFetchedAllUsers,
+              error: l,
+            ),
+            (r) {
+              _fetchedUsers = [
+                ..._fetchedUsers,
+                ...r.where((x) => x.active),
+                ...r.where((x) => !x.active),
+              ];
 
-        emit(state);
+              _currentUsersFetchPage++;
+
+              return FetchUsersSuccess(
+                users: _fetchedUsers,
+                hasFetchedAllUsers: r.isEmpty,
+              );
+            },
+          );
+
+          emit(state);
+        }
       },
     );
 
@@ -59,7 +66,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         emit(
           RefreshUsers(
             users: _fetchedUsers,
-            limit: _limitPerUsersFetch,
+            hasFetchedAllUsers: state.hasFetchedAllUsers,
           ),
         );
       },

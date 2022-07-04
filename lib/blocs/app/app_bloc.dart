@@ -50,6 +50,12 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
         final bool isAuthenticated = authenticationSession.hasNotExpired;
 
+        if (isAuthenticated) {
+          authenticationRepository.setSession(
+            session: authenticationSession,
+          );
+        }
+
         emit(
           AppStart(isAuthenticated: isAuthenticated),
         );
