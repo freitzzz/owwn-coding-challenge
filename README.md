@@ -1,5 +1,7 @@
 # Flutter Coding Challenge
 
+Reviewer, please refer to [write-up section](#write-up) for my overview on the developed application for the coding challenge.
+
 :blue_heart: If you're here, it means we've decided to move forward with your application!
 
 :rocket: Next, you should complete the following challenge that demonstrates your skills as a developer. You have ​**one week** to do it - take your time and do things nicely. There will be no commercial use of your code and it will only be used to assess your abilities as a software engineer.
@@ -127,34 +129,53 @@ Response: (\*optional)
 ```
 
 
-things to talk in write-up:
+## Write-up
 
-- folder structure
-- state management
-- barrel files
-- kiss
-- minimal dependencies
-- logging
-- networking + dio
-- monads for removing side effects
-- repositories
-- models and error models
-- compare owwn clean architecture with project architecture
-- intl
-- difficulties with navigator 2.0 since I've never used it
-- use of view term instead of page
-- dimension points definition
-- fake vs live repositories
-- scripts
-- dependencies table
-- minimal api changes for refactoring (e.g., include password in credentials)
-- reasons for not using json generators (e.g., json_serializable)
+The developed application follows a layered-like architecture and uses the bloc library for managing app state. It was written taking in consideration several Software Engineering principles (e.g., SRP, KISS, Dependency Injection, Dependency Inversion, Responsibility Segregation), as well common practices within the Flutter community (e.g., trailling commas usage, barrel files). The folder structure is as follows:
 
-what needs api doc:
+- `blocs`, which composes all needed blocs to mantain the app state;
+- `core`, which defines several classes and functions that serve as the app foundations and that are of general purpose usage within the app;
+- `data`, which defines every piece of code that allows the connection of the application with several data layers, through the use of repositories and networking clients;
+- `logging`, which provides logging functionalities such as logging bloc transition states;
+- `models`, which maps business and data layer entities/concepts in Dart classes;
+- presentation, which contains every piece of UI code (e.g., widgets, pages).
 
-- repositories
-- clients
+I like to follow and adapt this architecture for two reasons: everything is tightly seggregated, which promotes composability and easy refactoring/minimal API changes, and fits well with Flutter architecture/environment, as we can see the architecture as a widget tree:
 
-improvements:
+~~~
+App:
+   -> Presentation
+      -> Blocs
+         -> Repositories (data access points)
+            -> Models
+               -> Networking Clients (API Services integrators)
+                  -> HTTP, Websockets
+~~~
 
-- performance, etc...
+To promote testability, bug and side effect reduction, I've also decided to promote some of Functional Programming core principles, such as Monads and dependency injection. Monads in theory are complex to understand, but they allows us to express through an elegant API how the code should behave in terms of functions. I use them a lot in the data layer to translate exceptions in models. This way we don't need to worry a lot of the app crashing due to an unhandled exception, as monads will make sure that no exception is thrown.
+
+**Dependencies**
+
+As all things in life, we should not be very dependant of external packages/plugins in our application, as one bug/breaking change might cause the app to start behaving incorrectly, as well as the performance & app size to get worse. However, we should not or even try to reinvent the wheel on something that has already been developed and tested, which creates a dillema: when is it not acceptable to depend on a library?
+
+Despite the application being small, some of the things it is required to do are complex (e.g., line chart render). In order to meet the requirements and lay the application foundations/architecture, I've decided to depend on the following dependencies:
+
+|Name|Reason|
+|----|------|
+|`dartz`|Dartz is the `catz` library port for Dart. The app uses for monads application and transformation.|
+|`fl_chart`|There are several chart libraries which one can use, but I tend to always use fl_chart as it is powerful, performant and simples to use.|
+|`flutter_bloc`|The flutter_bloc package does an amazing job in state management using the concept of BLoC - Business Logic over Components.|
+|`http + networking`|The `networking` package is a custom package that I've developed, which provides a simple but useful HTTP client. It is built on top of `http`, hence this package is also required in the app. If `dio` was needed to be used, one just needs to implement a networking client that uses it.|
+|`intl`|This package helps achieving app localization (l10n)|
+|`jwt_io`|To check if an user session has expired or is about to, I needed to parse the API JWT Tokens. This package achieves this requirement very easily.|
+|`lumberdash`|Lumberdash is a logging library that provides the 4 common logging functions as top level functions.|
+|`lumberdash`|Lumberdash is a logging library that provides the 4 common logging functions as top level functions.|
+|`shared_preferences`|To allow multiple sessions using the same authentication tokens, it was required to store this in the user device.|
+
+**Difficulties Felt**
+
+While developing the application I've felt some difficulties due to not being used to use `Navigator 2.0` and `Slivers`. I'm used to Navigator imperative API and the only official way to achieve such for the new Navigator, was by the use of `Router`. However, Router seems to be too complex to integrate on the app for achieving such simple things like `push` and `pop`. Given this, I've decided to merge both declarative and imperative navigation styles by defining and centralizing pages logic on `AppNavigator`. Then through the usage of the static `of` API, when the app needs to change the current page, the custom navigator class provides a method that will update the inner navigator widget state and therefore and update the pages stack.
+
+To achieve the parallax effect I've used the `SliverAppBar` and `SliverList` sliver widgets, which together work very well and achieve most of the proposed requirements. However, in the Figma design files, the background image seems to be on the back of the list, which I found very hard to achieve in Flutter.
+
+On the testing side, three tests were proposed to implement. Unfortunately, I was only able to implement one of them, as the other ones require a non mocking setup (with my navigator architecture). The last test required to validate that the panned chart showed the correct value. To achieve such, I believe a good approach is to use golden tests as it allows to not only check that the value is being shown but also the correct one.
