@@ -36,8 +36,36 @@ class UserView extends StatelessWidget {
 
     final user = userBloc.state.user;
 
+    AppBarTheme.of(context).toolbarHeight;
+
     return Scaffold(
-      appBar: AppBar(),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(
+          kToolbarHeight,
+        ),
+        child: BlocBuilder<UserBloc, UserState>(
+          buildWhen: (previous, current) =>
+              current is UserSaveSuccess ||
+              current is UserInitial ||
+              (previous is! UserEditInProgress &&
+                  current is UserEditInProgress),
+          builder: (context, state) {
+            return AppBar(
+              actions: [
+                if (state is UserEditInProgress)
+                  IconButton(
+                    onPressed: () => AppNavigator.of(context).setNewRoute(
+                      const UsersPageArguments(),
+                    ),
+                    icon: const Icon(
+                      Icons.close,
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
+      ),
       body: ListView(
         primary: false,
         children: [
