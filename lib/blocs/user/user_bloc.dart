@@ -9,9 +9,11 @@ part 'user_state.dart';
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UsersRepository usersRepository;
 
-  User user;
+  late TextEditingController emailTextEditingController;
 
   late TextEditingController nameTextEditingController;
+
+  User user;
 
   UserBloc({
     required this.usersRepository,
@@ -19,6 +21,9 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }) : super(
           UserInitial(
             user: user,
+            emailTextEditingController: TextEditingController(
+              text: user.email,
+            ),
             nameTextEditingController: TextEditingController(
               text: user.name,
             ),
@@ -27,12 +32,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     nameTextEditingController = state.nameTextEditingController;
     nameTextEditingController.addListener(_onUserNameChanged);
 
-    on<UserNameUpdated>(
+    emailTextEditingController = state.emailTextEditingController;
+    emailTextEditingController.addListener(_onUserEmailChanged);
+
+    on<UserUpdateEvent>(
       (event, emit) {
-        if (nameTextEditingController.text != user.name) {
+        if (nameTextEditingController.text != user.name ||
+            emailTextEditingController.text != user.email) {
           emit(
             UserEditInProgress(
               nameTextEditingController: nameTextEditingController,
+              emailTextEditingController: emailTextEditingController,
               user: user.copyWith(
                 name: nameTextEditingController.text,
               ),
@@ -41,6 +51,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         } else {
           emit(
             UserInitial(
+              emailTextEditingController: emailTextEditingController,
               nameTextEditingController: nameTextEditingController,
               user: user,
             ),
@@ -53,12 +64,14 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (event, emit) async {
         emit(
           UserSaveInProgress(
-            user: state.user,
+            emailTextEditingController: emailTextEditingController,
             nameTextEditingController: nameTextEditingController,
+            user: state.user,
           ),
         );
 
         final updatedUser = user.copyWith(
+          email: emailTextEditingController.text,
           name: nameTextEditingController.text,
         );
 
@@ -69,15 +82,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         emit(
           result.fold(
             (l) => UserSaveFailure(
-              user: state.user,
+              emailTextEditingController: emailTextEditingController,
               nameTextEditingController: nameTextEditingController,
+              user: state.user,
             ),
             (r) {
               user = updatedUser;
 
               return UserSaveSuccess(
-                user: user,
+                emailTextEditingController: emailTextEditingController,
                 nameTextEditingController: nameTextEditingController,
+                user: user,
               );
             },
           ),
@@ -87,12 +102,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   void _onUserNameChanged() {
-    add(UserNameUpdated());
+    add(UserUpdateEvent());
+  }
+
+  void _onUserEmailChanged() {
+    add(UserUpdateEvent());
   }
 
   @override
   Future<void> close() {
     nameTextEditingController.dispose();
+    emailTextEditingController.dispose();
 
     return super.close();
   }

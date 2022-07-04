@@ -51,10 +51,11 @@ class User {
         );
 
   User copyWith({
+    final String? email,
     final String? name,
   }) {
     return User(
-      email: email,
+      email: email ?? this.email,
       gender: gender,
       id: id,
       name: name ?? this.name,

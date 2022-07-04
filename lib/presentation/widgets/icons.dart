@@ -4,6 +4,7 @@ import 'package:owwn_coding_challenge/presentation/presentation.dart';
 const maleIconData = Icons.male;
 const femaleIconData = Icons.female;
 const otherGenderIconData = Icons.question_mark;
+const closeIconData = Icons.close;
 
 extension GenderIconExtension on Gender {
   IconData get iconData {

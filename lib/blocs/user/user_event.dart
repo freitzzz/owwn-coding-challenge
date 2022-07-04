@@ -4,4 +4,4 @@ abstract class UserEvent {}
 
 class UserSaveEvent extends UserEvent {}
 
-class UserNameUpdated extends UserEvent {}
+class UserUpdateEvent extends UserEvent {}

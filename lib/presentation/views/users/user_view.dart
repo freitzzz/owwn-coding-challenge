@@ -34,10 +34,6 @@ class UserView extends StatelessWidget {
     final localizations = AppLocalizations.of(context);
     final userBloc = context.read<UserBloc>();
 
-    final user = userBloc.state.user;
-
-    AppBarTheme.of(context).toolbarHeight;
-
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(
@@ -58,7 +54,7 @@ class UserView extends StatelessWidget {
                       const UsersPageArguments(),
                     ),
                     icon: const Icon(
-                      Icons.close,
+                      closeIconData,
                     ),
                   ),
               ],
@@ -66,73 +62,68 @@ class UserView extends StatelessWidget {
           },
         ),
       ),
-      body: ListView(
-        primary: false,
-        children: [
-          BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              return UserAvatar(
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          final user = state.user;
+
+          return ListView(
+            primary: false,
+            children: [
+              UserAvatar(
                 user: state.user,
-              );
-            },
-          ),
-          const SizedBox.square(
-            dimension: thirtyTwoPoints,
-          ),
-          BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              return TextFormField(
+              ),
+              const SizedBox.square(
+                dimension: thirtyTwoPoints,
+              ),
+              TextFormField(
                 controller: state.nameTextEditingController,
                 decoration: const InputDecoration(
                   border: InputBorder.none,
                 ),
                 textAlign: TextAlign.center,
                 style: _userNameTextStyle,
-              );
-            },
-          ),
-          const SizedBox.square(
-            dimension: tenPoints,
-          ),
-          Text(
-            user.email,
-            textAlign: TextAlign.center,
-            style: _userEmailTextStyle,
-          ),
-          const SizedBox.square(
-            dimension: oneHundredPoints,
-          ),
-          if (user.hasStatistics) ...[
-            Padding(
-              padding: _statisticsChartPadding,
-              child: ConstrainedBox(
-                constraints: const BoxConstraints.expand(
-                  height: _statisticsChartHeight,
-                ),
-                child: UserStatisticsLineChart(
-                  statistics: user.statistics,
-                ),
               ),
-            ),
-            const SizedBox.square(
-              dimension: eightPoints,
-            ),
-            const CustomPaint(
-              painter: DashLinePainter(),
-            ),
-          ] else
-            Text(
-              localizations.statisticsNotAvailable,
-              style: _statisticsNotAvailableTextStyle,
-              textAlign: TextAlign.center,
-            ),
-          const SizedBox.square(
-            dimension: twentyFourPoints,
-          ),
-          BlocBuilder<UserBloc, UserState>(
-            builder: (context, state) {
-              if (state is UserEditInProgress) {
-                return Padding(
+              const SizedBox.square(
+                dimension: tenPoints,
+              ),
+              TextFormField(
+                controller: state.emailTextEditingController,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+                textAlign: TextAlign.center,
+                style: _userEmailTextStyle,
+              ),
+              const SizedBox.square(
+                dimension: oneHundredPoints,
+              ),
+              if (user.hasStatistics) ...[
+                Padding(
+                  padding: _statisticsChartPadding,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints.expand(
+                      height: _statisticsChartHeight,
+                    ),
+                    child: const _UserStatisticsChart(),
+                  ),
+                ),
+                const SizedBox.square(
+                  dimension: eightPoints,
+                ),
+                const CustomPaint(
+                  painter: DashLinePainter(),
+                ),
+              ] else
+                Text(
+                  localizations.statisticsNotAvailable,
+                  style: _statisticsNotAvailableTextStyle,
+                  textAlign: TextAlign.center,
+                ),
+              const SizedBox.square(
+                dimension: twentyFourPoints,
+              ),
+              if (state is UserEditInProgress)
+                Padding(
                   padding: _saveButtonPadding,
                   child: ElevatedButton(
                     onPressed: _onSaveButtonPressed(
@@ -143,13 +134,10 @@ class UserView extends StatelessWidget {
                       localizations.saveCaps,
                     ),
                   ),
-                );
-              } else {
-                return const SizedBox();
-              }
-            },
-          ),
-        ],
+                ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -169,5 +157,20 @@ class UserView extends StatelessWidget {
     }
 
     return callback;
+  }
+}
+
+class _UserStatisticsChart extends StatelessWidget {
+  const _UserStatisticsChart();
+
+  @override
+  Widget build(BuildContext context) {
+    final userBloc = context.read<UserBloc>();
+
+    final user = userBloc.state.user;
+
+    return UserStatisticsLineChart(
+      statistics: user.statistics,
+    );
   }
 }
