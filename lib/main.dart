@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:owwn_coding_challenge/blocs/blocs.dart';
 import 'package:owwn_coding_challenge/core/core.dart';
@@ -16,7 +15,7 @@ void main() {
       WidgetsFlutterBinding.ensureInitialized();
 
       final vault = await createVault(
-        isReleaseMode: kReleaseMode,
+        isReleaseMode: true,
       );
 
       runApp(

@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:owwn_coding_challenge/data/data.dart';
 import 'package:owwn_coding_challenge/models/models.dart';
+import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
 part 'users_event.dart';
 part 'users_state.dart';
 
-const _limitPerUsersFetch = 20;
+@visibleForTesting
+const limitPerUsersFetch = 20;
 
 class UsersBloc extends Bloc<UsersEvent, UsersState> {
   final UsersRepository usersRepository;
@@ -24,7 +26,7 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         if (_lastFetchPage == _currentUsersFetchPage) {
           final result = await usersRepository.users(
             page: _currentUsersFetchPage,
-            limit: _limitPerUsersFetch,
+            limit: limitPerUsersFetch,
           );
 
           _lastFetchPage++;

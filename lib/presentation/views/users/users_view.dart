@@ -61,6 +61,8 @@ class UsersView extends StatelessWidget {
                           ? users[index + 1]
                           : null;
 
+                      final key = Key('user_list_tile_${currentUser.id}');
+
                       final isFirstActiveUser = _isFirstActiveUser(
                         previousUser,
                         currentUser,
@@ -105,6 +107,7 @@ class UsersView extends StatelessWidget {
                             Padding(
                               padding: _userTilePadding,
                               child: UserListTile(
+                                key: key,
                                 isFirstInGroup:
                                     isFirstActiveUser && !isLastActiveUser,
                                 isLastInGroup:
@@ -130,6 +133,7 @@ class UsersView extends StatelessWidget {
                             Padding(
                               padding: _userTilePadding,
                               child: UserListTile(
+                                key: key,
                                 isFirstInGroup:
                                     isFirstInactiveUser && !isLastInactiveUser,
                                 isLastInGroup:
@@ -144,6 +148,7 @@ class UsersView extends StatelessWidget {
                         return Padding(
                           padding: _userTilePadding,
                           child: UserListTile(
+                            key: key,
                             isFirstInGroup:
                                 isFirstActiveUser || isFirstInactiveUser,
                             isLastInGroup:
