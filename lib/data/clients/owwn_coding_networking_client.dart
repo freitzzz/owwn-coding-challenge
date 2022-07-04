@@ -39,6 +39,7 @@ class OWWNCodingNetworkingClient extends NetworkingClient {
     );
   }
 
+  // ignore: use_setters_to_change_properties
   void setAccessToken(final String accessToken) {
     _accessToken = accessToken;
   }

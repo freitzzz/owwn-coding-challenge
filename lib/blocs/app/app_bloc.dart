@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:owwn_coding_challenge/core/core.dart';
 import 'package:owwn_coding_challenge/data/data.dart';

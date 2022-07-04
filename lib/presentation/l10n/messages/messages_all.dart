@@ -21,7 +21,7 @@ import 'package:owwn_coding_challenge/presentation/l10n/messages/messages_messag
 
 typedef Future<dynamic> LibraryLoader();
 Map<String, LibraryLoader> _deferredLibraries = {
-  'messages': () => Future.value(null),
+  'messages': () => Future.value(),
 };
 
 MessageLookupByLibrary? _findExact(String localeName) {
@@ -36,8 +36,10 @@ MessageLookupByLibrary? _findExact(String localeName) {
 /// User programs should call this before using [localeName] for messages.
 Future<bool> initializeMessages(String localeName) async {
   final availableLocale = Intl.verifiedLocale(
-      localeName, (locale) => _deferredLibraries[locale] != null,
-      onFailure: (_) => null);
+    localeName,
+    (locale) => _deferredLibraries[locale] != null,
+    onFailure: (_) => null,
+  );
   if (availableLocale == null) {
     return Future.value(false);
   }
