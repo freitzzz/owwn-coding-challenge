@@ -20,6 +20,10 @@ const _statisticsChartPadding = EdgeInsets.symmetric(
 
 const _statisticsChartHeight = 121.0;
 
+const _saveButtonPadding = EdgeInsets.symmetric(
+  horizontal: 12.0,
+);
+
 class UserView extends StatelessWidget {
   const UserView({
     super.key,
@@ -28,68 +32,114 @@ class UserView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-
     final userBloc = context.read<UserBloc>();
+
+    final user = userBloc.state.user;
 
     return Scaffold(
       appBar: AppBar(),
-      body: BlocBuilder<UserBloc, UserState>(
-        builder: (context, state) {
-          final user = state.user;
-
-          return ListView(
-            primary: false,
-            children: [
-              UserAvatar(
-                user: user,
-              ),
-              const SizedBox.square(
-                dimension: thirtyTwoPoints,
-              ),
-              Text(
-                user.name,
+      body: ListView(
+        primary: false,
+        children: [
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              return UserAvatar(
+                user: state.user,
+              );
+            },
+          ),
+          const SizedBox.square(
+            dimension: thirtyTwoPoints,
+          ),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              return TextFormField(
+                controller: state.nameTextEditingController,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
                 textAlign: TextAlign.center,
                 style: _userNameTextStyle,
+              );
+            },
+          ),
+          const SizedBox.square(
+            dimension: tenPoints,
+          ),
+          Text(
+            user.email,
+            textAlign: TextAlign.center,
+            style: _userEmailTextStyle,
+          ),
+          const SizedBox.square(
+            dimension: oneHundredPoints,
+          ),
+          if (user.hasStatistics) ...[
+            Padding(
+              padding: _statisticsChartPadding,
+              child: ConstrainedBox(
+                constraints: const BoxConstraints.expand(
+                  height: _statisticsChartHeight,
+                ),
+                child: UserStatisticsLineChart(
+                  statistics: user.statistics,
+                ),
               ),
-              const SizedBox.square(
-                dimension: tenPoints,
-              ),
-              Text(
-                user.email,
-                textAlign: TextAlign.center,
-                style: _userEmailTextStyle,
-              ),
-              const SizedBox.square(
-                dimension: oneHundredPoints,
-              ),
-              if (user.hasStatistics) ...[
-                Padding(
-                  padding: _statisticsChartPadding,
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints.expand(
-                      height: _statisticsChartHeight,
+            ),
+            const SizedBox.square(
+              dimension: eightPoints,
+            ),
+            const CustomPaint(
+              painter: DashLinePainter(),
+            ),
+          ] else
+            Text(
+              localizations.statisticsNotAvailable,
+              style: _statisticsNotAvailableTextStyle,
+              textAlign: TextAlign.center,
+            ),
+          const SizedBox.square(
+            dimension: twentyFourPoints,
+          ),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state is UserEditInProgress) {
+                return Padding(
+                  padding: _saveButtonPadding,
+                  child: ElevatedButton(
+                    onPressed: _onSaveButtonPressed(
+                      userBloc,
+                      state.nameTextEditingController,
                     ),
-                    child: UserStatisticsLineChart(
-                      statistics: user.statistics,
+                    child: Text(
+                      localizations.saveCaps,
                     ),
                   ),
-                ),
-                const SizedBox.square(
-                  dimension: eightPoints,
-                ),
-                const CustomPaint(
-                  painter: DashLinePainter(),
-                ),
-              ] else
-                Text(
-                  localizations.statisticsNotAvailable,
-                  style: _statisticsNotAvailableTextStyle,
-                  textAlign: TextAlign.center,
-                ),
-            ],
-          );
-        },
+                );
+              } else {
+                return const SizedBox();
+              }
+            },
+          ),
+        ],
       ),
     );
+  }
+
+  VoidCallback? _onSaveButtonPressed(
+    final UserBloc userBloc,
+    final TextEditingController nameTextEditingController,
+  ) {
+    VoidCallback? callback;
+
+    if (userBloc.state is! UserSaveInProgress) {
+      callback = () {
+        userBloc.add(
+          UserSaveEvent(),
+        );
+      };
+    }
+
+    return callback;
   }
 }
