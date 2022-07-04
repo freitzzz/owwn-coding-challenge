@@ -9,9 +9,9 @@ class Session {
 
   final String refreshToken;
 
-  bool get hasExpired =>
+  bool get hasNotExpired =>
       refreshToken.startsWith(_jwtPrefix) &&
-      JwtToken.getExpirationDate(refreshToken).isBefore(DateTime.now());
+      JwtToken.getExpirationDate(refreshToken).isAfter(DateTime.now());
 
   bool get isAlmostExpiring =>
       refreshToken.startsWith(_jwtPrefix) &&
