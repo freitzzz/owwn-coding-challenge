@@ -1,7 +1,6 @@
 import 'package:owwn_coding_challenge/blocs/blocs.dart';
 import 'package:owwn_coding_challenge/core/core.dart';
 import 'package:owwn_coding_challenge/data/data.dart';
-import 'package:owwn_coding_challenge/models/models.dart';
 import 'package:owwn_coding_challenge/presentation/presentation.dart';
 
 class AuthenticationPage extends MaterialPage {
