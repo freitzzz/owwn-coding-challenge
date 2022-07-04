@@ -85,6 +85,7 @@ class UsersView extends StatelessWidget {
                         AppNavigator.of(context).setNewRoute(
                           UserPageArguments(
                             user: currentUser,
+                            usersBloc: usersBloc,
                           ),
                         );
                       }

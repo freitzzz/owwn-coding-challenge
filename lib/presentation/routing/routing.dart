@@ -21,6 +21,8 @@ class AppNavigatorState extends State<AppNavigator> {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = this.arguments;
+
     return Navigator(
       pages: [
         if (arguments is AuthenticationPageArguments) AuthenticationPage(),
@@ -28,7 +30,7 @@ class AppNavigatorState extends State<AppNavigator> {
           UsersPage(),
         if (arguments is UserPageArguments)
           UserPage(
-            user: (arguments as UserPageArguments).user,
+            arguments: arguments,
           ),
       ],
       onPopPage: (route, result) => route.didPop(result),

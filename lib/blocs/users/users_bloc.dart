@@ -48,5 +48,21 @@ class UsersBloc extends Bloc<UsersEvent, UsersState> {
         emit(state);
       },
     );
+
+    on<RefreshUserEvent>(
+      (event, emit) async {
+        _fetchedUsers = [
+          for (final user in _fetchedUsers)
+            if (user.id == event.user.id) event.user else user
+        ];
+
+        emit(
+          RefreshUsers(
+            users: _fetchedUsers,
+            limit: _limitPerUsersFetch,
+          ),
+        );
+      },
+    );
   }
 }

@@ -34,16 +34,27 @@ class UsersPage extends MaterialPage {
 
 class UserPage extends MaterialPage {
   UserPage({
-    required final User user,
+    required final UserPageArguments arguments,
   }) : super(
           child: BlocProvider(
             lazy: false,
             create: (context) => UserBloc(
               usersRepository: context.read<Vault>().lookup<UsersRepository>()
                   as UsersRepository,
-              user: user,
+              user: arguments.user,
             ),
-            child: const UserView(),
+            child: BlocListener<UserBloc, UserState>(
+              listener: (context, state) {
+                if (state is UserSaveSuccess) {
+                  final usersBloc = arguments.usersBloc;
+
+                  usersBloc.add(
+                    RefreshUserEvent(user: state.user),
+                  );
+                }
+              },
+              child: const UserView(),
+            ),
           ),
         );
 }

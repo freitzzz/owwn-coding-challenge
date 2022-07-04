@@ -1,3 +1,4 @@
+import 'package:owwn_coding_challenge/blocs/blocs.dart';
 import 'package:owwn_coding_challenge/models/models.dart';
 import 'package:owwn_coding_challenge/presentation/routing/routes.dart';
 
@@ -20,7 +21,10 @@ class UsersPageArguments extends PageArguments {
 class UserPageArguments extends PageArguments {
   final User user;
 
+  final UsersBloc usersBloc;
+
   const UserPageArguments({
     required this.user,
+    required this.usersBloc,
   }) : super(route: userRoute);
 }

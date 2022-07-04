@@ -48,3 +48,10 @@ class FetchUsersFailure extends UsersState {
     required super.limit,
   });
 }
+
+class RefreshUsers extends UsersState {
+  const RefreshUsers({
+    required super.users,
+    required super.limit,
+  });
+}
