@@ -39,6 +39,8 @@ class UserPage extends MaterialPage {
           child: BlocProvider(
             lazy: false,
             create: (context) => UserBloc(
+              usersRepository: context.read<Vault>().lookup<UsersRepository>()
+                  as UsersRepository,
               user: user,
             ),
             child: const UserView(),
