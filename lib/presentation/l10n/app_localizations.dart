@@ -97,6 +97,15 @@ class AppLocalizations {
     );
   }
 
+  String get saveCaps {
+    return Intl.message(
+      'SAVE',
+      name: 'saveCaps',
+      desc: 'The word save in upper-case',
+      locale: localeName,
+    );
+  }
+
   String authenticationError(final AuthenticationError error) {
     switch (error.runtimeType) {
       case InvalidCredentialsAuthenticationError:
