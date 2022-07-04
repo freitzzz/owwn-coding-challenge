@@ -14,10 +14,12 @@ class User {
   String get initials {
     final nameSplit = name.split(' ');
 
-    if (nameSplit.length >= 2) {
+    if (nameSplit.length >= 2 && nameSplit.last.isNotEmpty) {
       return '${nameSplit.first[0]}${nameSplit.last[0]}'.toUpperCase();
     } else if (name.length >= 2) {
       return '${name[0]}${name[1]}'.toUpperCase();
+    } else if (name.isNotEmpty) {
+      return name[0].toUpperCase();
     } else {
       return '';
     }
@@ -47,6 +49,19 @@ class User {
         statistics = List.from(
           (json['statistics'] ?? []) as List<dynamic>,
         );
+
+  User copyWith({
+    final String? name,
+  }) {
+    return User(
+      email: email,
+      gender: gender,
+      id: id,
+      name: name ?? this.name,
+      statistics: statistics,
+      status: status,
+    );
+  }
 }
 
 enum Gender {
