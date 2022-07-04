@@ -43,16 +43,15 @@ class AppBloc extends Bloc<AppEvent, AppState> {
         );
 
         if (authenticationSession.isAlmostExpiring) {
-          await deviceRepository.write(
-            key: sessionKey,
-            value: authenticationSession.toJson().encode,
-          );
+          await _storeSession();
         }
 
+        await Future.delayed(const Duration(seconds: 1));
+
+        final bool isAuthenticated = authenticationSession.hasNotExpired;
+
         emit(
-          AppStart(
-            isAuthenticated: !authenticationSession.hasExpired,
-          ),
+          AppStart(isAuthenticated: isAuthenticated),
         );
       },
     );
@@ -61,11 +60,13 @@ class AppBloc extends Bloc<AppEvent, AppState> {
       (event, emit) async {
         authenticationSession = event.session;
 
+        await _storeSession();
+
         _schedulePeriodicSessionRefresh();
 
         emit(
           AppRefresh(
-            isAuthenticated: !authenticationSession.hasExpired,
+            isAuthenticated: authenticationSession.hasNotExpired,
           ),
         );
       },
@@ -79,26 +80,30 @@ class AppBloc extends Bloc<AppEvent, AppState> {
 
         final state = result.fold(
           (l) => RefreshSessionFailure(
-            isAuthenticated: !authenticationSession.hasExpired,
+            isAuthenticated: authenticationSession.hasNotExpired,
           ),
           (r) {
             authenticationSession = r;
 
             return AppRefresh(
-              isAuthenticated: !authenticationSession.hasExpired,
+              isAuthenticated: authenticationSession.hasNotExpired,
             );
           },
         );
 
         if (state is! RefreshSessionFailure) {
-          await deviceRepository.write(
-            key: sessionKey,
-            value: authenticationSession.toJson().encode,
-          );
+          await _storeSession();
         }
 
         emit(state);
       },
+    );
+  }
+
+  Future<void> _storeSession() {
+    return deviceRepository.write(
+      key: sessionKey,
+      value: authenticationSession.toJson().encode,
     );
   }
 
